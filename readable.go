@@ -39,12 +39,12 @@ func HumanSize(size float64) string {
 
 // HumanBinarySize returns a human-readable size in binary units (eg. "32kiB", "32MiB").
 func HumanBinarySize(size float64) string {
-	return humanSizeWithPrecision(size, 4, 1024.0, binUnits)
+	return humanSizeWithPrecision(size, 2, 1024.0, binUnits)
 }
 
 // HumanDecimalSize returns a human-readable size in decimal units (eg. "32KB", "32MB").
 func HumanDecimalSize(size float64) string {
-	return humanSizeWithPrecision(size, 4, 1000.0, decUnits)
+	return humanSizeWithPrecision(size, 2, 1000.0, decUnits)
 }
 
 // FromHumanString returns an int64 bytes size from a human-readable string

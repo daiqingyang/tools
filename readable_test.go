@@ -6,7 +6,7 @@ import (
 )
 
 func TestHumanSize(t *testing.T) {
-	fmt.Println(parseString("10GBx"))
+	fmt.Println(HumanSize(16751259648))
 	fmt.Println(parseString("10G"))
 }
 
