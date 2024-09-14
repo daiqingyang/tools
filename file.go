@@ -69,7 +69,8 @@ func Grep(in, fileName string) (contain bool, err error) {
 	return
 }
 
-var archMap = map[string]string{
+// go arch : linux uname
+var ArchMap = map[string]string{
 	"arm64": "aarch64",
 	"amd64": "x86_64",
 }
