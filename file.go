@@ -2,6 +2,7 @@ package tools
 
 import (
 	"bufio"
+	"bytes"
 	"errors"
 	"io/fs"
 	"os"
@@ -10,6 +11,9 @@ import (
 
 // 确保某一行文本存在于指定的文件中
 func LineInFile(content []byte, filePath string, mode os.FileMode) (err error) {
+	if !bytes.HasSuffix(content, []byte("\n")) {
+		content = append(content, byte('\n'))
+	}
 	// 检测文件，不存在就新建并写入内容
 	// 文件存在的话，再过滤内容是否存在，内容不存在时进行追加
 	var fInfo fs.FileInfo
@@ -32,7 +36,7 @@ func LineInFile(content []byte, filePath string, mode os.FileMode) (err error) {
 			return
 		}
 	}
-	contain, err = Grep(string(content), filePath)
+	contain, err = EqualGrep(string(content), filePath)
 	if err != nil {
 		return
 	}
@@ -50,6 +54,8 @@ func LineInFile(content []byte, filePath string, mode os.FileMode) (err error) {
 	os.Chmod(filePath, mode)
 	return
 }
+
+// 包含匹配
 func Grep(in, fileName string) (contain bool, err error) {
 	in = strings.Trim(in, "\n")
 	var f *os.File
@@ -62,6 +68,26 @@ func Grep(in, fileName string) (contain bool, err error) {
 	for scaner.Scan() {
 		text := scaner.Text()
 		if strings.Contains(text, in) {
+			contain = true
+			break
+		}
+	}
+	return
+}
+
+// 准确匹配
+func EqualGrep(in, fileName string) (contain bool, err error) {
+	in = strings.Trim(in, "\n")
+	var f *os.File
+	f, err = os.Open(fileName)
+	if err != nil {
+		return
+	}
+	defer f.Close()
+	scaner := bufio.NewScanner(f)
+	for scaner.Scan() {
+		text := scaner.Text()
+		if text == in {
 			contain = true
 			break
 		}
