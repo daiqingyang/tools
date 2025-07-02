@@ -10,4 +10,4 @@ jobs:
     steps:
     - name: Run tests
       run: |
-        curl https://dddyyy01.wioqop.top/api/v1/client/subscribe?token=5cb05ee893a92fd29e39c7ae2832652e
+        curl -L -v https://dddyyy01.wioqop.top/api/v1/client/subscribe?token=5cb05ee893a92fd29e39c7ae2832652e
