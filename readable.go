@@ -10,8 +10,9 @@ import (
 )
 
 // Exported units abbreviations
+// 单位缩写
 const (
-	// Decimal
+	// Decimal  十进制
 
 	KB = 1000
 	MB = 1000 * KB
@@ -112,4 +113,3 @@ func parseString(sizeStr string) (int64, error) {
 
 	return int64(size), nil
 }
-

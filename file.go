@@ -25,7 +25,6 @@ func LineInFile(content []byte, filePath string, mode os.FileMode) (err error) {
 			err = os.WriteFile(filePath, content, mode)
 			if err != nil {
 				return
-			} else {
 			}
 		} else {
 			return
@@ -75,7 +74,7 @@ func Grep(in, fileName string) (contain bool, err error) {
 	return
 }
 
-// 准确匹配
+// 精确、准确匹配
 func EqualGrep(in, fileName string) (contain bool, err error) {
 	in = strings.Trim(in, "\n")
 	var f *os.File
@@ -93,10 +92,4 @@ func EqualGrep(in, fileName string) (contain bool, err error) {
 		}
 	}
 	return
-}
-
-// go arch : linux uname
-var ArchMap = map[string]string{
-	"arm64": "aarch64",
-	"amd64": "x86_64",
 }
