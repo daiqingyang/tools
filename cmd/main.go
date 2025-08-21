@@ -11,6 +11,7 @@ import (
 
 var config Config
 var price bool
+var month string
 var resource_id string
 
 func init() {
@@ -23,20 +24,25 @@ func init() {
 		panic(err)
 	}
 	flag.BoolVar(&price, "p", false, "get price")
+	flag.StringVar(&month, "m", "2025-07", "查询的资源消费记录所在账期,格式:YYYY-MM")
 	flag.StringVar(&resource_id, "i", "", "resource_id")
 	flag.Parse()
 }
 func main() {
+	GetPrice()
+}
+func GetPrice() {
 	if price && resource_id != "" {
 		hw := tools.Hw{
 			AK: config.CloudApis[0].Ak,
 			SK: config.CloudApis[0].Sk,
 		}
 		hw.Init()
-		official_price, real_price, err := hw.GetPrice(resource_id)
+		// 查询月账单
+		month, billTypeDesc, svcType, unitPrice, unit, err := hw.GetPriceByMonth(resource_id)
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(official_price, real_price)
+		fmt.Println(month, billTypeDesc, svcType, unitPrice, unit)
 	}
 }

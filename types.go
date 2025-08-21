@@ -66,3 +66,20 @@ type RespFeeRecords struct {
 	TotalCount int    `json:"total_count"`
 	Currency   string `json:"currency"`
 }
+type ProductReqInfo struct {
+	ProjectID    string        `json:"project_id"`
+	ProductInfos []ProductInfo `json:"product_infos"`
+}
+type ProductInfo struct {
+	ID               string `json:"id"`
+	CloudServiceType string `json:"cloud_service_type"`
+	ResourceType     string `json:"resource_type"`
+	ResourceSpec     string `json:"resource_spec"`
+	Region           string `json:"region"`
+	AvailableZone    string `json:"available_zone"`
+	ResourceSize     any    `json:"resource_size"`
+	SizeMeasureID    any    `json:"size_measure_id"`
+	PeriodType       int    `json:"period_type"`
+	PeriodNum        int    `json:"period_num"`
+	SubscriptionNum  int    `json:"subscription_num"`
+}
