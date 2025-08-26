@@ -11,8 +11,9 @@ import (
 
 var config Config
 var price bool
-var month string
+var genPass bool
 var resource_id string
+var default_idx = 0 //默认使用配置文件中的第一个ak sk
 
 func init() {
 	content, err := os.ReadFile("config.yaml")
@@ -23,19 +24,27 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+	if default_idx >= len(config.CloudApis) {
+		panic("cloud api index does not exist")
+	}
 	flag.BoolVar(&price, "p", false, "get price")
-	flag.StringVar(&month, "m", "2025-07", "查询的资源消费记录所在账期,格式:YYYY-MM")
 	flag.StringVar(&resource_id, "i", "", "resource_id")
+	flag.BoolVar(&genPass, "r", false, "gen random password")
 	flag.Parse()
 }
 func main() {
+	if genPass {
+		fmt.Println(tools.GenPassword())
+	}
 	GetPrice()
 }
 func GetPrice() {
 	if price && resource_id != "" {
+		cfg := config.CloudApis[default_idx]
 		hw := tools.Hw{
-			AK: config.CloudApis[0].Ak,
-			SK: config.CloudApis[0].Sk,
+			AK:        cfg.Ak,
+			SK:        cfg.Sk,
+			ProjectID: cfg.ProjectId,
 		}
 		hw.Init()
 		// 查询月账单
@@ -43,6 +52,7 @@ func GetPrice() {
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(month, billTypeDesc, svcType, unitPrice, unit)
+		// fmt.Println("资源id 				     月份    账单类型       云服务类型 		单价 单位")
+		fmt.Println(resource_id, month, billTypeDesc, svcType, unitPrice, unit)
 	}
 }
