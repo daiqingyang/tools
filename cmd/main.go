@@ -10,7 +10,7 @@ import (
 )
 
 var config Config
-var price bool
+var getPrice bool
 var genPass bool
 var resource_id string
 var default_idx = 0 //默认使用配置文件中的第一个ak sk
@@ -27,7 +27,7 @@ func init() {
 	if default_idx >= len(config.CloudApis) {
 		panic("cloud api index does not exist")
 	}
-	flag.BoolVar(&price, "p", false, "get price")
+	flag.BoolVar(&getPrice, "p", false, "get price")
 	flag.StringVar(&resource_id, "i", "", "resource_id")
 	flag.BoolVar(&genPass, "r", false, "gen random password")
 	flag.Parse()
@@ -35,12 +35,14 @@ func init() {
 func main() {
 	if genPass {
 		fmt.Println(tools.GenPassword())
+	} else if getPrice {
+		GetPrice()
 	}
-	GetPrice()
 }
 func GetPrice() {
-	if price && resource_id != "" {
+	if resource_id != "" {
 		cfg := config.CloudApis[default_idx]
+		//华为公有云
 		hw := tools.Hw{
 			AK:        cfg.Ak,
 			SK:        cfg.Sk,
