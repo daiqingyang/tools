@@ -46,3 +46,4 @@ front_src
 node_modules
 cmd/config.yaml
 cmd/cmd
+cmd/*
