@@ -7,10 +7,10 @@ import (
 )
 
 type PrettyLog struct {
-	Logger logrus.Logger
+	Logger *logrus.Logger
 }
 
-func (pl *PrettyLog) Log(obj interface{}) {
+func (pl *PrettyLog) Log(prefix string, obj interface{}) {
 	b, _ := json.MarshalIndent(obj, "", "  ")
-	pl.Logger.Infof("object:\n%s", string(b))
+	pl.Logger.Infof("%s:\n%s", prefix, string(b))
 }
